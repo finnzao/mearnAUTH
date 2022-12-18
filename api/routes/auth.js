@@ -6,25 +6,25 @@ const Joi = require("joi");
 router.post("/", async (req, res) => {
 	try {
 		const { error } = validate(req.body);
-		console.log(req.body)
+		
 		if (error)
 			return res.status(400).send({ message: error.details[0].message });
 
 		const user = await User.findOne({ email: req.body.email });
 		if (!user)
-			return res.status(401).send({ message: "invalid email or password" });
+			return res.status(401).send({ message: "Email não encontrado" });
 
 		const validPassword = await bcrypt.compare(
 			req.body.password,
 			user.password
 		);
 		if (!validPassword)
-			return res.status(401).send({ message: "invalid Email or Password" });
+			return res.status(401).send({ message: "Senha incorreta" });
 
 		const token = user.generateAuthToken();
-		res.status(200).send({ data: token, message: "logged in successfully" });
+		res.status(200).send({ data: token, message: "Login completo" });
 	} catch (error) {
-		res.status(500).send({ message: "iternal Server Error" });
+		res.status(500).send({ message: "internal Server Error" });
 	}
 });
 

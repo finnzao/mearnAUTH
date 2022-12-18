@@ -79,7 +79,7 @@
 }
 
 .white_btn,
-.green_btn {
+.form_btn{
 	border: none;
 	outline: none;
 	padding: 12px 0;
@@ -91,14 +91,21 @@
 	cursor: pointer;
 }
 
-.green_btn {
+.form_btn{
 	background-color: #e4330b;
 	color: white;
 	margin: 10px;
 }
 @media (max-width: 660px){
-
-
+	.error_msg {
+		width: 90%;
+	}
+	.input{
+		width:100%;
+	}
+	.form_container{
+		width: 90%;
+	}
 	.signup_form_container{
 	display: grid;
 	height: 100vh;

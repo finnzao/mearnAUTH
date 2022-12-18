@@ -72,6 +72,7 @@
 }
 
 .right h1 {
+	margin-left: 10px;
 	margin-top: 0;
 	color: white;
 	font-size: 40px;
@@ -79,7 +80,7 @@
 }
 
 .white_btn,
-.green_btn {
+.form_btn {
 	border: none;
 	outline: none;
 	padding: 12px 0;
@@ -91,15 +92,23 @@
 	cursor: pointer;
 }
 
-.green_btn {
+.form_btn {
 	background-color: #e4330b;
 	color: white;
 	margin: 10px;
 }
 
 @media (max-width: 660px){
-
-
+	.error_msg {
+		width: 95%;
+	}
+	.input{
+		width: 90%;
+	}
+	
+	.form_container h1{
+		font-size: 33px;
+	}
 	.login_form_container{
 		display: grid;
 		grid-template-rows: 1fr 20%;

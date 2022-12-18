@@ -4,18 +4,39 @@ import { Link } from "react-router-dom";
 import styles from "./styles.module.css";
 
 const Login = () => {
+	//Use state com controle do input do formulario
 	const [data, setData] = useState({ email: "", password: "" });
 	const [error, setError] = useState("");
 
+	//Pegando os valores do input do formulario e colocando dentro do useState atraves do setData
 	const handleChange = ({ currentTarget: input }) => {
 		setData({ ...data, [input.name]: input.value });
 	};
 
+	
+	//Mandando requisições para o backend
 	const handleSubmit = async (e) => {
+		//PREVENT DEFAULT: A tag form tem o comportamento de recarregar a pagina , e isso faz perder os dados armazenado no UseState
+
 		e.preventDefault();
 		try {
+			//verifcação input
+			const email=data.email
+			const password=data.password
+			const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+			if(!email | !password){
+			  setError("Email e senha são necessários para login")
+			  return;
+			};
+
+			if (!email.match(pattern)){
+			  setError("Email invalido")
+			  return
+			}
+			//enviando para backend
 			const url = "http://localhost:8080/api/auth";
 			const { data: res } = await axios.post(url, data);
+			//RECEBIMENTO DO TOKEN 
 			localStorage.setItem("token", res.data);
 			window.location = "/";
 		} catch (error) {
@@ -24,6 +45,7 @@ const Login = () => {
 				error.response.status >= 400 &&
 				error.response.status <= 500
 			) {
+				//Pegando mensagem de error no backend e mostrando para o usuario
 				setError(error.response.data.message);
 			}
 		}
@@ -41,20 +63,18 @@ const Login = () => {
 							name="email"
 							onChange={handleChange}
 							value={data.email}
-							required
 							className={styles.input}
 						/>
 						<input
 							type="password"
-							placeholder="Password"
+							placeholder="Senha"
 							name="password"
 							onChange={handleChange}
 							value={data.password}
-							required
 							className={styles.input}
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
+						<button type="submit" className={styles.form_btn}>
 						Login
 						</button>
 					</form>

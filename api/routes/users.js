@@ -12,15 +12,15 @@ router.post("/", async (req, res) => {
 		if (user)
 			return res
 				.status(409)
-				.send({ message: "User with given email already Exist!" });
+				.send({ message: "Email já existe " });
 
 		const salt = await bcrypt.genSalt(Number(process.env.SALT));
 		const hashPassword = await bcrypt.hash(req.body.password, salt);
 
 		await new User({ ...req.body, password: hashPassword }).save();
-		res.status(201).send({ message: "User created successfully" });
+		res.status(201).send({ message: "Novo usuario cadastrado" });
 	} catch (error) {
-		res.status(500).send({ message: "Internal Server Error" });
+		res.status(500).send({ message: "Erro interno" });
 	}
 });
 

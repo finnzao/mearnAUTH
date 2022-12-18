@@ -4,12 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import styles from "./styles.module.css";
 
 const Signup = () => {
+	//salvado inputs 
 	const [data, setData] = useState({
 		firstName: "",
 		lastName: "",
 		email: "",
 		password: "",
 	});
+	//Erro para o usuario
 	const [error, setError] = useState("");
 	const navigate = useNavigate();
 
@@ -18,8 +20,22 @@ const Signup = () => {
 	};
 
 	const handleSubmit = async (e) => {
+		const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+		
+
 		e.preventDefault();
 		try {
+			if (!data.firstName | !data.lastName  | data.email) {
+				setError("Preencha todos os campos para se cadastrar");
+				return;
+			  } 
+			  //vericação da regix email
+			  if (!data.email.match(pattern)){
+				setError("Email invalido")
+				return
+			  }
+
 			const url = "http://localhost:8080/api/users";
 			const { data: res } = await axios.post(url, data);
 			navigate("/login");
@@ -51,20 +67,20 @@ const Signup = () => {
 						<h1>Nova conta</h1>
 						<input
 							type="text"
-							placeholder="First Name"
+							placeholder="Primeiro nome"
 							name="firstName"
 							onChange={handleChange}
 							value={data.firstName}
-							required
+							
 							className={styles.input}
 						/>
 						<input
 							type="text"
-							placeholder="Last Name"
+							placeholder="Sobrenome"
 							name="lastName"
 							onChange={handleChange}
 							value={data.lastName}
-							required
+							
 							className={styles.input}
 						/>
 						<input
@@ -73,20 +89,20 @@ const Signup = () => {
 							name="email"
 							onChange={handleChange}
 							value={data.email}
-							required
+							
 							className={styles.input}
 						/>
 						<input
 							type="password"
-							placeholder="Password"
+							placeholder="Senha"
 							name="password"
 							onChange={handleChange}
 							value={data.password}
-							required
+							
 							className={styles.input}
 						/>
 						{error && <div className={styles.error_msg}>{error}</div>}
-						<button type="submit" className={styles.green_btn}>
+						<button type="submit" className={styles.form_btn}>
 							Criar contta
 						</button>
 					</form>
